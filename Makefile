@@ -19,6 +19,7 @@ fs: foundation.cpio development.cpio
 	mkdir -p fs-tmp
 	fakeroot cpio -i -D fs-tmp -cmv --make-directories --no-preserve-owner -W none < foundation.cpio
 	fakeroot cpio -i -D fs-tmp -cmv --make-directories --no-preserve-owner -W none < development.cpio
+	rm fs-tmp/[F-S]*
 	mv fs-tmp fs
 
 foundation.cpio:
