@@ -13,6 +13,21 @@ I want to thank Timothy Allen for his library
 [bdflib](https://pypi.org/project/bdflib/)
 which made this project not only possible but also fun.
 
+## Installation and Use
+
+Create your `~/.fonts` directory if it does not already exist, install
+the BDF font file from this repository, and activate `~/.fonts` as an
+X Windows font directory.  An `xterm` should then be able use the font:
+
+```
+mkdir -p ~/.fonts
+wget -P ~/.fonts https://raw.githubusercontent.com/brandon-rhodes/unixpc-font-bdf/master/unixpc-system.8.bdf
+mkfontdir ~/.fonts
+xset fp+ ~/.fonts
+xset fp rehash
+xterm -fa '' -font '-unixpc-system-*' -fb '-unixpc-system-*'
+```
+
 ## Studying the UNIX PC base filesystem
 
 The `Makefile` in this directory can not only build the font file, but
