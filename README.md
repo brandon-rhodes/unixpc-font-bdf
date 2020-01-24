@@ -1,4 +1,5 @@
-# unixpc-font-bdf
+# The UNIX PC 3B1 system font, for modern computers
+
 Convert the venerable AT&amp;T UNIX PC font to the modern BDF bitmap format
 
 The `unixpc-system.8.bdf` font file that this tool produces has, for
