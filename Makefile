@@ -1,4 +1,8 @@
 
+unixpc-system.8.bdf: convert.py system.8.ft
+	python -c 'import bdflib' 2>/dev/null || (cat NEED_BDFLIB && exit 1)
+	python convert.py system.8.ft > $@
+
 system.8.ft: fs/usr/lib/wfont/system.8.ft
 	cp -p $< $@
 

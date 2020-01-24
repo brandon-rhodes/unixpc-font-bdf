@@ -1,0 +1,7 @@
+
+Error: the "convert.py" Python script needs the third-party "bdflib"
+Python library.  To install it, create and activate a virtual
+environment, then in this directory run the command:
+
+pip install -r requirements.txt
+
