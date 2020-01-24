@@ -38,9 +38,9 @@ def main(argv):
     magic, flags, font_hs, font_vs, baseline = unpack(fmt, data[:calcsize(fmt)])
     assert magic == 0o616
 
-    print('Width and height in pixels: {}x{}'.format(font_hs, font_vs))
-    print('Pixel offset to baseline: {}'.format(baseline))
-    print('Approximate DPI (x y): {} {}'.format(DPI_X, DPI_Y))
+    msg('Width and height in pixels: {}x{}'.format(font_hs, font_vs))
+    msg('Pixel offset to baseline: {}'.format(baseline))
+    msg('Approximate DPI (x y): {} {}'.format(DPI_X, DPI_Y))
 
     scale = 2
 
@@ -56,7 +56,7 @@ def main(argv):
         offset = 32 + i * size
         block = data[offset:offset + size]
         hs, vs, ha, va, hi, vi, mr = unpack(fmt, block)
-        print(repr(chr(i+32)), hs, vs, ha, va, hi, vi, mr)
+        msg(repr(chr(i+32)), hs, vs, ha, va, hi, vi, mr)
 
         input_width = 2
         fmt2 = '>h'
@@ -94,6 +94,9 @@ def flip(n, width):
     s = bin(n)[2:]
     s = s.zfill(width)
     return int(s[::-1], 2)
+
+def msg(*args):
+    print(*args, file=sys.stderr)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
