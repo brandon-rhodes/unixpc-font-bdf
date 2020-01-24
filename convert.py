@@ -23,8 +23,8 @@ UNIXPC_Y_PIXELS = 348
 WIDTH_INCHES = 9.0
 HEIGHT_INCHES = 6.5
 
-DPI_X = UNIXPC_X_PIXELS / WIDTH_INCHES
-DPI_Y = UNIXPC_Y_PIXELS / HEIGHT_INCHES
+ORIGINAL_DPI_X = UNIXPC_X_PIXELS / WIDTH_INCHES
+ORIGINAL_DPI_Y = UNIXPC_Y_PIXELS / HEIGHT_INCHES
 
 def main(argv):
     parser = argparse.ArgumentParser(description='Convert UNIX PC font to bdf')
@@ -40,13 +40,22 @@ def main(argv):
 
     msg('Width and height in pixels: {}x{}'.format(font_hs, font_vs))
     msg('Pixel offset to baseline: {}'.format(baseline))
-    msg('Approximate DPI (x y): {} {}'.format(DPI_X, DPI_Y))
+    msg('Original DPI (x y): {} {}'.format(ORIGINAL_DPI_X, ORIGINAL_DPI_Y))
 
     scale = 2
 
+    # These handcrafted values are only correct for "system.8" and other
+    # fonts of the same size:
     name = '-unixpc-system-medium-r-normal-12-120-100-100-m-100-iso8859-1'
-    pointsize = int(font_vs / DPI_Y * 72.0)
-    font = bdflib.model.Font(name, pointsize, DPI_X / scale, DPI_Y)
+    visual_pointsize = 16
+    pixels_high = font_vs * scale
+    dpi = int(72.0 / visual_pointsize * pixels_high)
+    font = bdflib.model.Font(
+        name,
+        ptSize=visual_pointsize,
+        xdpi=dpi,
+        ydpi=dpi,
+    )
 
     fmt = '>bbbbbbh'
     size = calcsize(fmt)
@@ -83,7 +92,7 @@ def main(argv):
             bbY=(-va - vs) * scale,
             bbW=hs,
             bbH=vs * scale,
-            advance=hi,
+            advance=font_hs,
             codepoint=i + 32,
         )
 
@@ -94,7 +103,6 @@ BIG = 2 ** 60  # added before running bin() to avoid negative numbers
 def flip(n, width):
     """Reverse the binary digits of integer `n`, which is `width` bits wide."""
     s = bin(BIG + n)[-width:]
-    #msg(s)
     return int(s[::-1], 2)
 
 def msg(*args):
