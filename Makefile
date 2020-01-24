@@ -1,4 +1,6 @@
 
+system.8.ft: fs/usr/lib/wfont/system.8.ft
+	cp -p $< $@
 
 fs/usr/lib/wfont/system.8.ft:
 	mkdir -p fs
