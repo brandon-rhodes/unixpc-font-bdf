@@ -89,10 +89,12 @@ def main(argv):
 
     bdflib.writer.write_bdf(font, sys.stdout)
 
+BIG = 2 ** 60  # added before running bin() to avoid negative numbers
+
 def flip(n, width):
     """Reverse the binary digits of integer `n`, which is `width` bits wide."""
-    s = bin(n)[2:]
-    s = s.zfill(width)
+    s = bin(BIG + n)[-width:]
+    #msg(s)
     return int(s[::-1], 2)
 
 def msg(*args):
