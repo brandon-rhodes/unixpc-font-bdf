@@ -1,3 +1,17 @@
+Please note that the following license applies *only* to the files
+`README.md`, `NEED_BDFLIB`, `convert.py`, and `requirements.txt` that
+Brandon Rhodes personally authored.
+
+The `system.8.ft` binary file in this repository, by contrast, is
+extracted from a retroware archive of the old UNIX PC software, and
+provided here only for fair-use personal or academic study of the art of
+traditional bitmap computer fonts.  I have no license to distribute the
+font under more permissive terms.
+
+Since `unixpc-system.8.bdf` is a derived work from the original font, we
+must presume that it labors under the same restrictions.
+
+```
 MIT License
 
 Copyright (c) 2020 Brandon Rhodes
@@ -19,3 +33,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
