@@ -3,7 +3,7 @@
 Convert the venerable AT&amp;T UNIX PC font to the modern BDF bitmap format
 
 The `unixpc-system.8.bdf` font file that this tool produces has, for
-your convenience, been committed to the root of this respoitory.  The
+your convenience, been committed to the root of this repository.  The
 font makes your Linux terminal look charmingly like the classic UNIX
 desktop machine of yore:
 
@@ -66,6 +66,11 @@ file:
 $ python convert.py fs/usr/lib/wfont/PLAIN.R.E.24.A > tmp.bdf
 ```
 
+If it turns out I have accidentally hard-coded anything in the script
+that’s fatal for one of the other fonts, just open an Issue and we’ll
+take a look at it!  I wasn’t, I’ll admit, aiming for production code
+here.
+
 ## Design note
 
 Pixels on the UNIX PC screen were not square: they were tall rectangles.
@@ -73,7 +78,7 @@ This means that the UNIX PC 9x12 terminal font did not, in fact, display
 squarish little characters with a 3:4 aspect ratio, but taller and more
 elegant characters.
 
-To simulate their appreance on a modern display where pixels are
+To simulate their appearance on a modern display where pixels are
 squares, the `convert.py` script sets an internal value `scale = 2` that
 produces 2 rows of pixels for every 1 input row of pixels.  While this,
 strictly speaking, produces an error in the other direction by making
