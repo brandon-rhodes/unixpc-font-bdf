@@ -79,11 +79,12 @@ def main(argv):
             bytelist = data[j : j+input_width]
             n, = unpack(fmt2, bytelist)
             n = flip(n, hs)
-            for si in range(scale):
-                glyph_data.append(n)
+            glyph_data.append(n)
             j += input_width
 
         glyph_data.reverse()
+
+        glyph_data = double_some_rows(glyph_data, scale)
 
         font.new_glyph_from_data(
             name=b'ASCII CHARACTER %s' % bytes([i + 32]),
@@ -91,7 +92,7 @@ def main(argv):
             bbX=ha,
             bbY=(-va - vs) * scale,
             bbW=hs,
-            bbH=vs * scale,
+            bbH=len(glyph_data),
             advance=font_hs,
             codepoint=i + 32,
         )
@@ -107,6 +108,14 @@ def flip(n, width):
     """Reverse the binary digits of integer `n`, which is `width` bits wide."""
     s = bin(BIG + n)[-width:]
     return int(s[::-1], 2)
+
+def double_some_rows(glyph_data, scale):
+    data = [
+        row
+        for row in glyph_data
+        for si in range(scale)
+    ]
+    return data
 
 def msg(*args):
     print(*args, file=sys.stderr)
