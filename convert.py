@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # This font is designed for pixels which are each a tall rectangle with
 # an aspect ratio x:y of roughly 0.84 (approx 6/7 or 5/6 or 4/5).
@@ -10,7 +10,10 @@ import bdflib
 import bdflib.model
 import bdflib.writer
 import sys
+from bdflib import xlfd
 from struct import calcsize, unpack
+
+stdout = sys.stdout.buffer
 
 # https://tech-insider.org/unix/research/acrobat/8605.pdf
 UNIXPC_X_PIXELS = 720
@@ -46,7 +49,7 @@ def main(argv):
 
     # These handcrafted values are only correct for "system.8" and other
     # fonts of the same size:
-    name = '-unixpc-system-medium-r-normal-12-120-100-100-m-100-iso8859-1'
+    name = b'-unixpc-system-medium-r-normal-12-120-100-100-m-100-iso8859-1'
     visual_pointsize = 16
     pixels_high = font_vs * scale
     dpi = int(72.0 / visual_pointsize * pixels_high)
@@ -65,11 +68,9 @@ def main(argv):
         offset = 32 + i * size
         block = data[offset:offset + size]
         hs, vs, ha, va, hi, vi, mr = unpack(fmt, block)
-        msg(repr(chr(i+32)), hs, vs, ha, va, hi, vi, mr)
 
         input_width = 2
         fmt2 = '>h'
-        output_width = (hs + 3) // 4  # how many hex digits
 
         j = mr + offset + size - 2
         glyph_data = []
@@ -78,15 +79,14 @@ def main(argv):
             bytelist = data[j : j+input_width]
             n, = unpack(fmt2, bytelist)
             n = flip(n, hs)
-            n = n << (output_width * 4) - hs
-            h = hex(n)[2:]
-            h = h.zfill(output_width)
             for si in range(scale):
-                glyph_data.append(h)
+                glyph_data.append(n)
             j += input_width
 
+        glyph_data.reverse()
+
         font.new_glyph_from_data(
-            name=b'ASCII CHARACTER {}'.format(chr(i + 32)),
+            name=b'ASCII CHARACTER %s' % bytes([i + 32]),
             data=glyph_data,
             bbX=ha,
             bbY=(-va - vs) * scale,
@@ -96,7 +96,10 @@ def main(argv):
             codepoint=i + 32,
         )
 
-    bdflib.writer.write_bdf(font, sys.stdout)
+    xlfd.fix(font)
+    xlfd.validate(font)
+
+    bdflib.writer.write_bdf(font, stdout)
 
 BIG = 2 ** 60  # added before running bin() to avoid negative numbers
 
